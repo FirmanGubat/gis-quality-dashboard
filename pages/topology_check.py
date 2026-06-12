@@ -230,24 +230,7 @@ def render(user: dict):
                         items = _load_geoserver_columns(url_layer)
                     selected_columns = _column_checkbox(items, "geo2")
             else:
-                st.info("ℹ️ List layer GeoServer tidak tersedia (REST API tidak dapat diakses).")
-                st.markdown("**Masukkan WFS URL secara manual:**")
-                manual_wfs = st.text_input(
-                    "WFS URL",
-                    placeholder="https://geoserver.../ows?service=WFS&version=1.0.0&request=GetFeature&typeName=workspace:layer&outputFormat=application%2Fjson",
-                    key="geo_manual_url"
-                )
-                if manual_wfs.strip():
-                    url_layer = manual_wfs.strip()
-                    tipe = st.selectbox("Tipe Data", ["", "Point", "Polyline", "Polygon"], key="geo_tipe_manual")
-                    st.warning("⚠️ JANGAN SALAH PILIH TIPE DATA!")
-                    st.session_state["selected_tipe"] = tipe
-                    with st.spinner("Memuat kolom..."):
-                        items = _load_geoserver_columns(url_layer)
-                    if items:
-                        selected_columns = _column_checkbox(items, "geo_manual")
-                    else:
-                        st.warning("⚠️ Gagal memuat kolom dari URL tersebut.")
+                st.warning("⚠️ GeoServer tidak tersedia.")
 
         with tab_arc:
             if not url_layer:
