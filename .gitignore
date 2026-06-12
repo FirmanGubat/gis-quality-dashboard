@@ -1,0 +1,19 @@
+# Streamlit secrets — JANGAN di-commit ke Git!
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.docx
+*.pdf
+*.log
