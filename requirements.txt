@@ -1,5 +1,5 @@
 streamlit>=1.37.0
-streamlit-gsheets-connection
+st-gsheets-connection
 extra-streamlit-components>=0.1.71
 geopandas>=1.0.0
 pandas>=2.0.0
