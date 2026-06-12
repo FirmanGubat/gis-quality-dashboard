@@ -139,14 +139,17 @@ def get_mapset_satu_peta() -> list:
 # ─── GEOSERVER ────────────────────────────────────────────────────────────────
 
 def list_service_geoserver() -> list:
-    """Persis dari old list_service()."""
+    """Persis dari old list_service(). Return [] tanpa error jika 403/tidak bisa diakses."""
     headers = {'Content-Type': 'application/json'}
     auth    = (GEOSERVER_USERNAME(), GEOSERVER_PASSWORD())
     url     = f"{GEOSERVER_REST_URL()}/layers.json"
     try:
         r = requests.get(url=url, headers=headers, auth=auth, verify=False, timeout=15)
+        if r.status_code == 403:
+            # Akses REST API diblokir — tidak tampilkan error, return kosong
+            return []
         if r.status_code != 200:
-            st.error(f"Failed to retrieve layers: HTTP {r.status_code}")
+            st.warning(f"⚠️ GeoServer tidak dapat diakses (HTTP {r.status_code}). Gunakan WFS URL langsung.")
             return []
         layer = r.json().get("layers", {}).get("layer", [])
         layers_name = []
@@ -162,7 +165,7 @@ def list_service_geoserver() -> list:
         layers_name.sort(key=lambda x: x[0])
         return layers_name
     except Exception as e:
-        st.error(f"❌ {e}")
+        st.warning(f"⚠️ Tidak dapat terhubung ke GeoServer: {e}")
         return []
 
 
